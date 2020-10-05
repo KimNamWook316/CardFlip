@@ -22,7 +22,6 @@
 }
 
 .flipBtn_back {
-    background-color: blue;
     transform: translateZ( -10px );
     background-repeat: no-repeat;
     background-position: center;
