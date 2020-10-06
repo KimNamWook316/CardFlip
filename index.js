@@ -9,6 +9,8 @@ for (var i = 0; i < document.querySelectorAll(".flipBtnWrapper").length; i++) {
       for (var j = 0; j < this.getElementsByClassName("flipBtn").length; j++) {
         // 이전 선택에 의해 카드 애니메이션이 재생중일 때는 아무 일도 일어나지 않는다.
         if (isFlipping) return;
+        // 카드가 다 뒤집이지기 전까지는 클릭할 수 없음
+        if (isStarting) return;
 
         var thisBtn = this.getElementsByClassName("flipBtn")[j];
         thisBtn.classList.add("clicked");
@@ -36,6 +38,10 @@ for (var i = 0; i < document.querySelectorAll(".flipBtnWrapper").length; i++) {
             pairedCards.push(pairedCards[1]);
             selectedCardPair = [];
           } else {
+            // 시도 횟수 ui 업데이트
+            var prevScore = document.querySelector("#score").innerText;
+            document.querySelector("#score").innerText =
+              parseInt(prevScore) + 1;
             isFlipping = true;
             // 카드 플립 애니메이션이 모두 재생 된 이후 뒤집어진다.
             // interval === style.css의 flipbutton transition seconds
@@ -72,23 +78,62 @@ var colors = [
 var maxCount = totalCardNum / 2;
 var count = 0;
 
-// 카드 색 랜덤 지정
-for (var i = 0; i < maxCount; i++) {
-  var cardNumPair = makeCardNumberPair();
-  var cardColor = setCardColor();
-
-  document
-    .querySelectorAll(".flipBtn_back")
-    [cardNumPair[0]].classList.add("flipBtn_back_" + cardColor);
-  document
-    .querySelectorAll(".flipBtn_back")
-    [cardNumPair[1]].classList.add("flipBtn_back_" + cardColor);
-  count++;
-}
+// 오프닝이 끝나기 전에 클릭이 되지 않기 위한 변수
+var isStarting = true;
 
 /*************/
 /* functions */
 /*************/
+
+function gameStart() {
+  setGameBoard();
+  openCards();
+}
+
+function resetGame() {
+  isStarting = true;
+  excludedColors = [];
+  excludedNumbers = [];
+  count = 0;
+  pairedCards = [];
+  isFlipping = false;
+  cardColorPair = [];
+  selectedCardPair = [];
+  document.querySelector("#score").innerText = 0;
+  gameStart();
+}
+
+// 카드 색 랜덤 지정
+function setGameBoard() {
+  for (var i = 0; i < maxCount; i++) {
+    var cardNumPair = makeCardNumberPair();
+    var cardColor = setCardColor();
+
+    document
+      .querySelectorAll(".flipBtn_back")
+      [cardNumPair[0]].classList.add("flipBtn_back_" + cardColor);
+    document
+      .querySelectorAll(".flipBtn_back")
+      [cardNumPair[1]].classList.add("flipBtn_back_" + cardColor);
+    count++;
+  }
+}
+
+// 카드 공개
+function openCards() {
+  var flipBtns = document.querySelectorAll(".flipBtn");
+  // 게임 시작 직후 3초간 카드 공개, 이후 0.1초 간격으로 뒤집어짐
+  for (var i = 0; i < flipBtns.length; i++) {
+    flipBtns[i].classList.add("clicked");
+    (function (x) {
+      setTimeout(function () {
+        flipBtns[x].classList.remove("clicked");
+        // 마지막 카드가 뒤집어진 후에 클릭 가능하게 변수 조정
+        if (x === flipBtns.length - 1) isStarting = false;
+      }, 3000 + 100 * x);
+    })(i);
+  }
+}
 
 // 카드 컬러가 무엇인지 리턴한다.
 function getCardColor(classList) {

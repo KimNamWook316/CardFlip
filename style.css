@@ -1,3 +1,10 @@
+.scoreText {
+  display: inline-block;
+}
+
+.scoreText-value {
+}
+
 .flipBtnWrapper {
   width: 100px;
   height: 100px;
