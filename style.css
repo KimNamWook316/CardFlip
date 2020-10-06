@@ -1,76 +1,76 @@
 .flipBtnWrapper {
-    width: 100px;
-    height: 100px;
-    position: relative;
-    display: inline-block;
+  width: 100px;
+  height: 100px;
+  position: relative;
+  display: inline-block;
 }
 
-.clicked{
-    transform: rotateY(180deg);
+.clicked {
+  transform: rotateY(180deg);
 }
 
-.flipBtn{
-    transition: 1s;
-    transform-style: preserve-3d;
+.flipBtn {
+  transition: 0.5s;
+  transform-style: preserve-3d;
 }
 
 .flipBtn,
 .flipBtn_face {
-    width: 100%;
-    height: 100%;
-    position: absolute;
+  width: 100%;
+  height: 100%;
+  position: absolute;
 }
 
 .flipBtn_back {
-    transform: translateZ( -10px );
-    background-repeat: no-repeat;
-    background-position: center;
+  transform: translateZ(-10px);
+  background-repeat: no-repeat;
+  background-position: center;
 }
 
 .flipBtn_mid {
-    height: 100px;
-    width: 20px;
-    background-color: #d5485a;
-    transform: rotateY(90deg);
-    left: -10px;
+  height: 100px;
+  width: 20px;
+  background-color: #d5485a;
+  transform: rotateY(90deg);
+  left: -10px;
 }
 
 .flipBtn_front {
-    background-color: grey;
-    background-repeat: no-repeat;
-    background-position: center;
-    backface-visibility: hidden;
-    transform: translateZ( 10px );
+  background-color: grey;
+  background-repeat: no-repeat;
+  background-position: center;
+  backface-visibility: hidden;
+  transform: translateZ(10px);
 }
 
-.flipBtn_back_red{
-    background-color: red;
+.flipBtn_back_red {
+  background-color: red;
 }
 
-.flipBtn_back_blue{
-    background-color: blue;
+.flipBtn_back_blue {
+  background-color: blue;
 }
 
-.flipBtn_back_green{
-    background-color: green;
+.flipBtn_back_green {
+  background-color: green;
 }
 
-.flipBtn_back_yellow{
-    background-color: yellow;
+.flipBtn_back_yellow {
+  background-color: yellow;
 }
 
-.flipBtn_back_orange{
-    background-color: orange;
+.flipBtn_back_orange {
+  background-color: orange;
 }
 
-.flipBtn_back_navy{
-    background-color: navy;
+.flipBtn_back_navy {
+  background-color: navy;
 }
 
-.flipBtn_back_purple{
-    background-color: purple;
+.flipBtn_back_purple {
+  background-color: purple;
 }
 
-.flipBtn_back_pink{
-    background-color: pink;
+.flipBtn_back_pink {
+  background-color: pink;
 }

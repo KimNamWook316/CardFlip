@@ -1,9 +1,54 @@
-// 플립 애니메이션 설정
-for(var i = 0; i < document.querySelectorAll(".flipBtnWrapper").length; i++){
-    document.querySelectorAll(".flipBtnWrapper")[i].addEventListener("click", function(){
-        for(var j = 0; j < this.getElementsByClassName("flipBtn").length; j++){
-            this.getElementsByClassName("flipBtn")[j].classList.add("clicked");
+var pairedCards = [];
+var isFlipping = false;
+
+// 버튼 클릭시 처리
+for (var i = 0; i < document.querySelectorAll(".flipBtnWrapper").length; i++) {
+  document
+    .querySelectorAll(".flipBtnWrapper")
+    [i].addEventListener("click", function () {
+      for (var j = 0; j < this.getElementsByClassName("flipBtn").length; j++) {
+        // 이전 선택에 의해 카드 애니메이션이 재생중일 때는 아무 일도 일어나지 않는다.
+        if (isFlipping) return;
+
+        var thisBtn = this.getElementsByClassName("flipBtn")[j];
+        thisBtn.classList.add("clicked");
+
+        // 동일한 버튼을 중복 클릭했을 때는 아무 일도 일어나지 않는다.
+        if (selectedCardPair[0] === thisBtn) return;
+
+        // 카드 색 판별
+        var selectedCardColor = getCardColor(
+          thisBtn.getElementsByClassName("flipBtn_back")[0].classList
+        );
+
+        // 색 일치 여부를 확인하기 위한 임시 변수에 저장한다.
+        cardColorPair.push(selectedCardColor);
+        selectedCardPair.push(thisBtn);
+
+        // 첫 번째 선택일 경우 임시 변수에 저장만 하고 리턴한다.
+        if (selectedCardPair.length < 2) {
+          return;
+        } else {
+          // 카드 색이 일치할 경우 일치된 카드 목록에 등록한다.
+          if (cardColorPair[0] === cardColorPair[1]) {
+            console.log("paired");
+            pairedCards.push(pairedCards[0]);
+            pairedCards.push(pairedCards[1]);
+            selectedCardPair = [];
+          } else {
+            isFlipping = true;
+            // 카드 플립 애니메이션이 모두 재생 된 이후 뒤집어진다.
+            // interval === style.css의 flipbutton transition seconds
+            setTimeout(function () {
+              selectedCardPair[0].classList.remove("clicked");
+              selectedCardPair[1].classList.remove("clicked");
+              selectedCardPair = [];
+              isFlipping = false;
+            }, 500);
+          }
+          cardColorPair = [];
         }
+      }
     });
 }
 
@@ -13,79 +58,115 @@ var totalCardNum = document.querySelectorAll(".flipBtnWrapper").length;
 
 // 색 지정 때 이미 사용된 색을 저장하는 배열
 var excludedColors = [];
-var colors = ["red", "orange", "yellow", "green", "blue", "navy", "purple", "pink"];
+var colors = [
+  "red",
+  "orange",
+  "yellow",
+  "green",
+  "blue",
+  "navy",
+  "purple",
+  "pink",
+];
 
 var maxCount = totalCardNum / 2;
 var count = 0;
 
 // 카드 색 랜덤 지정
-for(var i = 0; i < maxCount; i++){
-    var cardNumPair = makeCardNumberPair();
-    var cardColor = setCardColor();
-    
-    document.querySelectorAll(".flipBtn_back")[cardNumPair[0]].classList.add("flipBtn_back_" + cardColor);
-    document.querySelectorAll(".flipBtn_back")[cardNumPair[1]].classList.add("flipBtn_back_" + cardColor);
-    count++;
+for (var i = 0; i < maxCount; i++) {
+  var cardNumPair = makeCardNumberPair();
+  var cardColor = setCardColor();
+
+  document
+    .querySelectorAll(".flipBtn_back")
+    [cardNumPair[0]].classList.add("flipBtn_back_" + cardColor);
+  document
+    .querySelectorAll(".flipBtn_back")
+    [cardNumPair[1]].classList.add("flipBtn_back_" + cardColor);
+  count++;
 }
 
-// 지정될 카드 인덱스를 리턴하는 함수
-function makeCardNumberPair(){
-    while(true){
-        var randomNum1 = Math.floor(Math.random() * totalCardNum);
-        var randomNum2 = Math.floor(Math.random() * totalCardNum);
-        if(randomNum1 === randomNum2){
-            continue;
-        }
-        var cardNumPair = [randomNum1, randomNum2];
+/*************/
+/* functions */
+/*************/
 
-        // 이미 사용된 인덱스인지 확인
-        if(checkOverlappingNumber(cardNumPair) === true){
-            continue;
-        } else {
-            excludedNumbers.push(cardNumPair[0]);
-            excludedNumbers.push(cardNumPair[1]);
-            break;
-        }
+// 카드 컬러가 무엇인지 리턴한다.
+function getCardColor(classList) {
+  var cardColor;
+  for (var i = 0; i < colors.length; i++) {
+    if (classList.contains("flipBtn_back_" + colors[i])) {
+      cardColor = colors[i];
     }
-    return cardNumPair;
+  }
+  // 에러처리
+  if (!cardColor) console.log("error");
+
+  return cardColor;
+}
+
+// 선택된 카드 컬러 두 가지가 담기는 배열
+var cardColorPair = [];
+// 선택된 카드 객체가 담기는 배열
+var selectedCardPair = [];
+
+// 게임판이 초기화될 때 같은 컬러를 가진 카드 인덱스를 리턴하는 함수
+function makeCardNumberPair() {
+  while (true) {
+    var randomNum1 = Math.floor(Math.random() * totalCardNum);
+    var randomNum2 = Math.floor(Math.random() * totalCardNum);
+    if (randomNum1 === randomNum2) {
+      continue;
+    }
+    var cardNumPair = [randomNum1, randomNum2];
+
+    // 이미 사용된 인덱스인지 확인
+    if (checkOverlappingNumber(cardNumPair) === true) {
+      continue;
+    } else {
+      excludedNumbers.push(cardNumPair[0]);
+      excludedNumbers.push(cardNumPair[1]);
+      break;
+    }
+  }
+  return cardNumPair;
 }
 
 // 이미 색이 지정된 카드(인덱스)인지 확인하는 함수
-function checkOverlappingNumber(numberPair){
-    var isOverlapped = false;
-    for(var i = 0; i < excludedNumbers.length; i++){
-        if(numberPair.includes(excludedNumbers[i])){
-            isOverlapped = true;
-            break;
-        }
+function checkOverlappingNumber(numberPair) {
+  var isOverlapped = false;
+  for (var i = 0; i < excludedNumbers.length; i++) {
+    if (numberPair.includes(excludedNumbers[i])) {
+      isOverlapped = true;
+      break;
     }
-    return isOverlapped;
+  }
+  return isOverlapped;
 }
 
 // 지정될 카드 색깔을 리턴하는 함수
-function setCardColor(){
-    while(true){
-        var randomColorIdx = Math.floor(Math.random() * colors.length);
-        var randomColor = colors[randomColorIdx];
-        
-        if(checkOverlappingColor(randomColor) === true){
-            continue;
-        } else {
-            excludedColors.push(randomColor);
-            break;
-        }
+function setCardColor() {
+  while (true) {
+    var randomColorIdx = Math.floor(Math.random() * colors.length);
+    var randomColor = colors[randomColorIdx];
+
+    if (checkOverlappingColor(randomColor) === true) {
+      continue;
+    } else {
+      excludedColors.push(randomColor);
+      break;
     }
-    return randomColor;
+  }
+  return randomColor;
 }
 
 // 이미 사용된 색인지 확인
-function checkOverlappingColor(randomColor){
-    var isOverlapped = false;
-    for(var i = 0; i < excludedColors.length; i++){
-        if(randomColor === excludedColors[i]){
-            isOverlapped = true;
-            break;
-        }
+function checkOverlappingColor(randomColor) {
+  var isOverlapped = false;
+  for (var i = 0; i < excludedColors.length; i++) {
+    if (randomColor === excludedColors[i]) {
+      isOverlapped = true;
+      break;
     }
-    return isOverlapped;
+  }
+  return isOverlapped;
 }
