@@ -13,10 +13,13 @@ for (var i = 0; i < document.querySelectorAll(".flipBtnWrapper").length; i++) {
         if (isStarting) return;
 
         var thisBtn = this.getElementsByClassName("flipBtn")[j];
+
+        // 이미 클릭된 버튼이면 클릭처리 하지 않음.
+        if (thisBtn.classList.contains("clicked")) return;
         thisBtn.classList.add("clicked");
 
         // 동일한 버튼을 중복 클릭했을 때는 아무 일도 일어나지 않는다.
-        if (selectedCardPair[0] === thisBtn) return;
+        //if (selectedCardPair[0] === thisBtn) return;
 
         // 카드 색 판별
         var selectedCardColor = getCardColor(
@@ -34,8 +37,8 @@ for (var i = 0; i < document.querySelectorAll(".flipBtnWrapper").length; i++) {
           // 카드 색이 일치할 경우 일치된 카드 목록에 등록한다.
           if (cardColorPair[0] === cardColorPair[1]) {
             console.log("paired");
-            pairedCards.push(pairedCards[0]);
-            pairedCards.push(pairedCards[1]);
+            pairedCards.push(selectedCardPair[0]);
+            pairedCards.push(selectedCardPair[1]);
             selectedCardPair = [];
           } else {
             // 시도 횟수 ui 업데이트
@@ -81,16 +84,23 @@ var count = 0;
 // 오프닝이 끝나기 전에 클릭이 되지 않기 위한 변수
 var isStarting = true;
 
+var isGameStarted = false;
+
 /*************/
 /* functions */
 /*************/
 
 function gameStart() {
-  setGameBoard();
-  openCards();
+  if (isGameStarted) return;
+  else {
+    isGameStarted = true;
+    setGameBoard();
+    openCards();
+  }
 }
 
 function resetGame() {
+  isGameStarted = false;
   isStarting = true;
   excludedColors = [];
   excludedNumbers = [];
@@ -100,7 +110,17 @@ function resetGame() {
   cardColorPair = [];
   selectedCardPair = [];
   document.querySelector("#score").innerText = 0;
+  resetColor();
   gameStart();
+}
+
+function resetColor() {
+  var cards = document.querySelectorAll(".flipBtn_back");
+  for (var i = 0; i < cards.length; i++) {
+    cards[i].classList.remove(...cards[i].classList);
+    cards[i].classList.add("flipBtn_face");
+    cards[i].classList.add("flipBtn_back");
+  }
 }
 
 // 카드 색 랜덤 지정
