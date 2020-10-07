@@ -1,9 +1,15 @@
 body {
   text-align: center;
+  background-color: #1a1a2e;
+}
+
+#banner {
+  color: white;
 }
 
 .scoreText {
   display: inline-block;
+  color: white;
 }
 
 .scoreText-value {

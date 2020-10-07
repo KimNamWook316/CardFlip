@@ -21,13 +21,35 @@ var isStarting = true
 // 게임이 시작했는지 판별하는 변수
 var isGameStarted = false
 
+var timer = 0
+var sec = 0
+var min = 0
+
 /*************/
 /* functions */
 /*************/
 
+// gameStart이 실행되면 같이 실행됨
+var stopWatch = setInterval(function () {
+  if (isGameStarted) {
+    timer++
+    document.getElementById("banner").innerText = timer
+  }
+}, 100)
+
+function pauseStopWatch() {
+  clearInterval(stopWatch)
+}
+
 function mainLoop() {
-  gameStart()
   clickProcess()
+}
+
+function checkGameFinished() {
+  if (pairedCards.length >= 16) {
+    isGameStarted = false
+    pauseStopWatch()
+  }
 }
 
 function clickProcess() {
@@ -79,6 +101,7 @@ function clickProcess() {
           }
           cardColorPair = []
         }
+        checkGameFinished()
       }
     })
   }
@@ -104,6 +127,7 @@ function resetGame() {
   cardColorPair = []
   selectedCardPair = []
   document.querySelector("#score").innerText = 0
+  timer = 0
   resetColor()
   gameStart()
 }
