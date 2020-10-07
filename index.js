@@ -18,7 +18,7 @@ var count = 0
 
 // 오프닝이 끝나기 전에 클릭이 되지 않기 위한 변수
 var isStarting = true
-
+// 게임이 시작했는지 판별하는 변수
 var isGameStarted = false
 
 /*************/
@@ -45,9 +45,6 @@ function clickProcess() {
         // 이미 클릭된 버튼이면 클릭처리 하지 않음.
         if (thisBtn.classList.contains("clicked")) return
         thisBtn.classList.add("clicked")
-
-        // 동일한 버튼을 중복 클릭했을 때는 아무 일도 일어나지 않는다.
-        //if (selectedCardPair[0] === thisBtn) return;
 
         // 카드 색 판별
         var selectedCardColor = getCardColor(thisBtn.getElementsByClassName("flipBtn_back")[0].classList)
