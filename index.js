@@ -20,26 +20,17 @@ var count = 0
 var isStarting = true
 // 게임이 시작했는지 판별하는 변수
 var isGameStarted = false
+// 현재 실행되고 있는 스탑워치 함수
+var currentStopWatch
 
 var timer = 0
+var dotSec = 0
 var sec = 0
 var min = 0
 
 /*************/
 /* functions */
 /*************/
-
-// gameStart이 실행되면 같이 실행됨
-var stopWatch = setInterval(function () {
-  if (isGameStarted) {
-    timer++
-    document.getElementById("banner").innerText = timer
-  }
-}, 100)
-
-function pauseStopWatch() {
-  clearInterval(stopWatch)
-}
 
 function mainLoop() {
   clickProcess()
@@ -117,6 +108,9 @@ function gameStart() {
 }
 
 function resetGame() {
+  // 게임이 시작중일 경우 리셋 X
+  if (isStarting) return
+
   isGameStarted = false
   isStarting = true
   excludedColors = []
@@ -126,10 +120,12 @@ function resetGame() {
   isFlipping = false
   cardColorPair = []
   selectedCardPair = []
+  document.getElementById("banner").innerText = "Re-Starting..."
   document.querySelector("#score").innerText = 0
   timer = 0
   resetColor()
   gameStart()
+  timer = 0
 }
 
 function resetColor() {
@@ -162,8 +158,11 @@ function openCards() {
     ;(function (x) {
       setTimeout(function () {
         flipBtns[x].classList.remove("clicked")
-        // 마지막 카드가 뒤집어진 후에 클릭 가능하게 변수 조정
-        if (x === flipBtns.length - 1) isStarting = false
+        // 마지막 카드가 뒤집어진 후에 클릭 가능하게 변수 조정, 스탑워치 시작
+        if (x === flipBtns.length - 1) {
+          isStarting = false
+          currentStopWatch = stopWatch()
+        }
       }, 3000 + 100 * x)
     })(i)
   }
@@ -243,4 +242,30 @@ function checkOverlappingColor(randomColor) {
     }
   }
   return isOverlapped
+}
+
+// 스탑워치 함수, 카드가 모두 뒤집어지면 호출
+function stopWatch() {
+  setInterval(function () {
+    if (isStarting) return
+    if (isGameStarted) {
+      dotSec = timer
+      if (dotSec / 600 >= 1) {
+        min = Math.floor(dotSec / 600)
+        dotSec = dotSec % 600
+        sec = Math.floor(dotSec / 10)
+        dotSec = dotSec % 10
+      } else if (dotSec / 10 >= 1) {
+        sec = Math.floor(dotSec / 10)
+        dotSec = dotSec % 10
+      }
+      timer++
+      document.getElementById("banner").innerText = min + " : " + sec + " : " + dotSec
+    }
+  }, 100)
+}
+
+// 현재 스탑워치 종료
+function pauseStopWatch() {
+  clearInterval(currentStopWatch)
 }
