@@ -1,3 +1,5 @@
+const k_cardFlippingTime = 500
+
 var pairedCards = []
 var isFlipping = false
 
@@ -40,7 +42,14 @@ function checkGameFinished() {
   if (pairedCards.length >= 16) {
     isGameStarted = false
     pauseStopWatch()
+    gameFinishScene()
   }
+}
+
+function gameFinishScene() {
+  setTimeout(function () {
+    location.href = "result.html?" + "time" + "=" + timer + ":" + "attempt" + "=" + count
+  }, k_cardFlippingTime * 2)
 }
 
 function clickProcess() {
@@ -72,7 +81,6 @@ function clickProcess() {
         } else {
           // 카드 색이 일치할 경우 일치된 카드 목록에 등록한다.
           if (cardColorPair[0] === cardColorPair[1]) {
-            console.log("paired")
             pairedCards.push(selectedCardPair[0])
             pairedCards.push(selectedCardPair[1])
             selectedCardPair = []
@@ -88,7 +96,7 @@ function clickProcess() {
               selectedCardPair[1].classList.remove("clicked")
               selectedCardPair = []
               isFlipping = false
-            }, 500)
+            }, k_cardFlippingTime)
           }
           cardColorPair = []
         }

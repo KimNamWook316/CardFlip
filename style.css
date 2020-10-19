@@ -1,6 +1,24 @@
 body {
   text-align: center;
+  color: white;
   background-color: #1a1a2e;
+}
+
+footer {
+  color: white;
+}
+
+ul {
+  padding-left: 0;
+  list-style: none;
+}
+
+button {
+  font-size: 1rem;
+  padding: 5px;
+  border: none;
+  color: white;
+  background-color: #e94560;
 }
 
 #title {
@@ -14,20 +32,9 @@ body {
   font-size: 1.2rem;
 }
 
-.startBtn_face {
-  font-size: 1.5rem;
-  padding: 5px;
-  border: none;
-  color: white;
-  background-color: #e94560;
-}
-
 .scoreText {
   display: inline-block;
   color: white;
-}
-
-.scoreText-value {
 }
 
 .flipBtnWrapper {
@@ -62,13 +69,12 @@ body {
 .flipBtn_mid {
   height: 100px;
   width: 20px;
-  background-color: #d5485a;
   transform: rotateY(90deg);
   left: -10px;
 }
 
 .flipBtn_front {
-  background-color: grey;
+  background-color: #666699;
   background-repeat: no-repeat;
   background-position: center;
   backface-visibility: hidden;
@@ -137,7 +143,7 @@ body {
 }
 
 .flipBtn_mid_pink {
-  background-color: #99001a;
+  background-color: #ffe6ea;
 }
 
 /* Button Colors End */
