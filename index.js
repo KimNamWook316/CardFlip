@@ -2,6 +2,8 @@ const k_cardFlippingTime = 500
 
 var pairedCards = []
 var isFlipping = false
+// 카드 뒤집기 시도횟수
+var curAttempt = 0
 
 // 선택된 카드 컬러 두 가지가 담기는 배열
 var cardColorPair = []
@@ -48,7 +50,7 @@ function checkGameFinished() {
 
 function gameFinishScene() {
   setTimeout(function () {
-    location.href = "result.html?" + "time" + "=" + timer + ":" + "attempt" + "=" + count
+    location.href = "result.html?" + "time" + "=" + timer + ":" + "attempt" + "=" + curAttempt
   }, k_cardFlippingTime * 2)
 }
 
@@ -86,8 +88,8 @@ function clickProcess() {
             selectedCardPair = []
           } else {
             // 시도 횟수 ui 업데이트
-            var prevScore = document.querySelector("#score").innerText
-            document.querySelector("#score").innerText = parseInt(prevScore) + 1
+            curAttempt++
+            document.querySelector("#attempt").innerText = curAttempt
             isFlipping = true
             // 카드 플립 애니메이션이 모두 재생 된 이후 뒤집어진다.
             // interval === style.css의 flipbutton transition seconds
@@ -123,6 +125,7 @@ function resetGame() {
   isStarting = true
   excludedColors = []
   excludedNumbers = []
+  curAttempt = 0
   count = 0
   pairedCards = []
   isFlipping = false
