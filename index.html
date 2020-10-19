@@ -5,7 +5,8 @@
     <title>Card Flip</title>
 </head>
 <body>
-    <h1 id="banner">Press Start to Play!</h1>
+    <h1 id="title">Card Match</h1>
+    <p id="banner">Press Start to Play!</p>
     <div class="flipBtnWrapper">
         <div class="flipBtn">
             <div class="flipBtn_face flipBtn_back"></div>
@@ -122,7 +123,13 @@
         </div>
     </div>
     <br>
-    <button onclick="gameStart();">Start</button>
+    <div class="startBtnWrapper">
+        <div class="startBtn">
+            <button class="startBtn_face startBtn_back">Restart</button>
+            <div class="startBtn_face startBtn_mid"></div>
+            <button class= "startBtn_face startBtn_front" onclick="gameStart();">Start</button>
+        </div>
+    </div>
     <button onclick="resetGame();">Restart</button>
     <div class="scoreText">시도 횟수 : </div>
     <div id="score" class="scoreText">0</div>

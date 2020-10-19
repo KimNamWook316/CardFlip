@@ -145,6 +145,8 @@ function setGameBoard() {
 
     document.querySelectorAll(".flipBtn_back")[cardNumPair[0]].classList.add("flipBtn_back_" + cardColor)
     document.querySelectorAll(".flipBtn_back")[cardNumPair[1]].classList.add("flipBtn_back_" + cardColor)
+    document.querySelectorAll(".flipBtn_mid")[cardNumPair[0]].classList.add("flipBtn_mid_" + cardColor)
+    document.querySelectorAll(".flipBtn_mid")[cardNumPair[1]].classList.add("flipBtn_mid_" + cardColor)
     count++
   }
 }
