@@ -1,5 +1,7 @@
+// 상수
 const k_cardFlippingTime = 500
 
+// 색깔이 맞춰진 카드 객체가 들어가는 배열
 var pairedCards = []
 var isFlipping = false
 // 카드 뒤집기 시도횟수
@@ -17,6 +19,7 @@ var totalCardNum = document.querySelectorAll(".flipBtnWrapper").length
 var excludedColors = []
 var colors = ["red", "orange", "yellow", "green", "blue", "navy", "purple", "pink"]
 
+// 색 지정때 사용함
 var maxCount = totalCardNum / 2
 var count = 0
 
@@ -121,6 +124,7 @@ function resetGame() {
   // 게임이 시작중일 경우 리셋 X
   if (isStarting) return
 
+  console.log("resetGame")
   isGameStarted = false
   isStarting = true
   excludedColors = []
@@ -132,7 +136,7 @@ function resetGame() {
   cardColorPair = []
   selectedCardPair = []
   document.getElementById("banner").innerText = "Re-Starting..."
-  document.querySelector("#score").innerText = 0
+  document.querySelector("#attempt").innerText = 0
   timer = 0
   resetColor()
   gameStart()
