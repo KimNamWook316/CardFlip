@@ -92,7 +92,7 @@ function clickProcess() {
           } else {
             // 시도 횟수 ui 업데이트
             curAttempt++
-            document.querySelector("#attempt").innerText = curAttempt
+            document.getElementsByClassName("attemptText")[0].innerText = "시도 횟수 : " + curAttempt
             isFlipping = true
             // 카드 플립 애니메이션이 모두 재생 된 이후 뒤집어진다.
             // interval === style.css의 flipbutton transition seconds

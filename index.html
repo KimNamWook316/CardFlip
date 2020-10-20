@@ -6,8 +6,8 @@
 </head>
 <body>
     <h1 id="title">Card Match</h1>
-    <div class="boardWrapper">
-        <p id="banner">Press Start to Play!</p>
+    <fieldset class="boardWrapper">
+        <legend id="banner">Press Start to Play!</legend>
         <div class="flipBtnWrapper">
             <div class="flipBtn">
                 <div class="flipBtn_face flipBtn_back"></div>
@@ -124,11 +124,12 @@
             </div>
         </div>
         <br>
-        <button class="startBtn" onclick="gameStart();">Start</button> 
-        <button class="startBtn" onclick="resetGame();">Restart</button>
-        <div class="attemptText">시도 횟수 : </div>
-        <div id="attempt" class="attemptText">0</div>
-    </div>
+        <div class="menuBarWrapper">
+            <div class="attemptText menuBarItem_text">시도 횟수 : 0</div>
+            <button class="startBtn menuBarItem_btn" onclick="gameStart();">Start</button> 
+            <button class="startBtn menuBarItem_btn" onclick="resetGame();">Restart</button>
+        </div>
+    </fieldset>
     <footer>by NamooKim</footer>
     <script src="index.js"></script>
     <script>mainLoop();</script>
