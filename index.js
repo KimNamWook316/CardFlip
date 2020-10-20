@@ -136,19 +136,25 @@ function resetGame() {
   cardColorPair = []
   selectedCardPair = []
   document.getElementById("banner").innerText = "Re-Starting..."
-  document.querySelector("#attempt").innerText = 0
+  document.getElementsByClassName("attemptText").innerText = "시도 횟수 : 0"
   timer = 0
   resetColor()
   gameStart()
   timer = 0
 }
 
+// 카드 옆, 뒷면 색상 초기화 함수
 function resetColor() {
-  var cards = document.querySelectorAll(".flipBtn_back")
-  for (var i = 0; i < cards.length; i++) {
-    cards[i].classList.remove(...cards[i].classList)
-    cards[i].classList.add("flipBtn_face")
-    cards[i].classList.add("flipBtn_back")
+  var cardsBack = document.querySelectorAll(".flipBtn_back")
+  var cardsMid = document.querySelectorAll(".flipBtn_mid")
+  for (var i = 0; i < cardsBack.length; i++) {
+    cardsBack[i].classList.remove(...cardsBack[i].classList)
+    cardsBack[i].classList.add("flipBtn_face")
+    cardsBack[i].classList.add("flipBtn_back")
+
+    cardsMid[i].classList.remove(...cardsMid[i].classList)
+    cardsMid[i].classList.add("flipBtn_face")
+    cardsMid[i].classList.add("flipBtn_mid")
   }
 }
 
