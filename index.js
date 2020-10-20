@@ -4,7 +4,7 @@ const k_cardFlippingTime = 500
 // 색깔이 맞춰진 카드 객체가 들어가는 배열
 var pairedCards = []
 var isFlipping = false
-// 카드 뒤집기 시도횟수
+// 카드 뒤집기 실패횟수
 var curAttempt = 0
 
 // 선택된 카드 컬러 두 가지가 담기는 배열
@@ -90,9 +90,9 @@ function clickProcess() {
             pairedCards.push(selectedCardPair[1])
             selectedCardPair = []
           } else {
-            // 시도 횟수 ui 업데이트
+            // 실패 횟수 ui 업데이트
             curAttempt++
-            document.getElementsByClassName("attemptText")[0].innerText = "시도 횟수 : " + curAttempt
+            document.getElementsByClassName("attemptText")[0].innerText = "실패 횟수 : " + curAttempt
             isFlipping = true
             // 카드 플립 애니메이션이 모두 재생 된 이후 뒤집어진다.
             // interval === style.css의 flipbutton transition seconds
@@ -136,7 +136,7 @@ function resetGame() {
   cardColorPair = []
   selectedCardPair = []
   document.getElementById("banner").innerText = "Re-Starting..."
-  document.getElementsByClassName("attemptText").innerText = "시도 횟수 : 0"
+  document.getElementsByClassName("attemptText").innerText = "실패 횟수 : 0"
   timer = 0
   resetColor()
   gameStart()
